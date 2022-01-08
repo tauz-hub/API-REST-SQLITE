@@ -1,28 +1,35 @@
 import { Router } from "express";
-import { createTable, insertInTable, selectTable, updateInTable, deleteInTable, selectInTable } from './Controler/sqliteQueries.js';
+import { createTable, insertInTable, selectTable, updateInTable, deleteInTable, selectInTable } from '../Controler/sqliteQueries.js';
+import { isAuthenticated } from "../middleware/isAtuthenticated.js";
+import { auth } from "./auth.js";
+import { secret } from "./secret.js";
 
 const router = Router();
+router.post('/auth', auth)
+router.get('/secret', isAuthenticated, secret)
+
+
+router.get('/', (req, res) => {
+  res.send("ola")
+})
+
+
 router.post('/createTable', async (req, res) => {
   const nameOfTable = req.body.TableName
   if (nameOfTable) {
     await createTable(nameOfTable)
-    res.json({
-      "statusCode": 201
-    })
+    res.status(201).json("sucess")
   } else {
-    res.json({
-      "statusCode": 400
-    })
+    res.status(400).json("erro")
   }
 });
 
 router.get('/:table', async (req, res) => {
   const table = await selectTable(req.params.table)
   if (table) {
-    res.json(table)
+    res.status(201).json(table)
   } else {
-    res.json({
-      "statusCode": 400,
+    res.status(400).json({
       "message": "Tabela não existe"
     })
   }

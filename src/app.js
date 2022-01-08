@@ -3,13 +3,14 @@ import 'dotenv/config'
 import https from 'https';
 import cors from 'cors';
 import fs from 'fs';
-import router from './routes.js'
+import router from './routes/routes.js'
 const app = express()
 const portHttp = process.env.PORTHTTP
 const portHttps = process.env.PORTHTTPS
 
 app.use(express.json());
 app.use(cors());
+
 
 app.use(router);
 

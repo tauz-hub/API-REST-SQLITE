@@ -8,22 +8,26 @@ import postInTable from "./public/postInTable.js"
 import secret from "./public/secret.js";
 import putInTable from "./public/putInTable.js";
 import deleteInTable from "./public/deleteInTable.js";
+import addUser from "./private/addUser.js";
 
 const router = Router();
-router.post('/auth', auth)
+
+router.post('/addUser', addUser)
 
 router.get('/secret', isAuthenticated, secret)
 
-router.get('/:table', getTable)
+router.get('/:table', isAuthenticated, getTable)
 
-router.get('/:table/:id', getInTable)
+router.get('/:table/:id', isAuthenticated, getInTable)
 
-router.post('/createTable', createTable);
+router.post('/auth', auth)
 
-router.post('/:table', postInTable)
+router.post('/createTable', isAuthenticated, createTable);
 
-router.put('/:table', putInTable)
+router.post('/:table', isAuthenticated, postInTable)
 
-router.delete('/:table', deleteInTable)
+router.put('/:table', isAuthenticated, putInTable)
+
+router.delete('/:table', isAuthenticated, deleteInTable)
 
 export default router;

@@ -12,12 +12,16 @@ export async function insertInTable(req, nameTable) {
   })
 }
 
-export async function createTable(nameOfTable) {
+export async function createTable(nameTable) {
   if (nameOfTable !== 'auth') {
-    return openDb().then(db => {
-      const instructionToCreateTable = `CREATE TABLE IF NOT EXISTS ${nameOfTable} ( id TEXT PRIMARY KEY , data TEXT)`
-      db.exec(instructionToCreateTable)
-      return true
+    return openDb().then(async db => {
+      const instructionToSelectTable = `SELECT name FROM sqlite_master WHERE type='table' AND name='${nameTable}'`
+      const tableExist = await db.get(instructionToSelectTable)
+      if (!tableExist) {
+        const instructionToCreateTable = `CREATE TABLE IF NOT EXISTS ${nameTable} ( id TEXT PRIMARY KEY , data TEXT)`
+        db.exec(instructionToCreateTable)
+        return true
+      }
     })
   }
 }

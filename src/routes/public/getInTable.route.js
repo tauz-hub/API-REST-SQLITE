@@ -1,8 +1,9 @@
-import { selectInTable } from "../../Controler/sqliteQueries.js"
+import { selectInTable } from "../../Controller/sqliteQueries.js"
 export default {
   method: "get",
   route: "/table/:table/:id",
   isAuthenticated: true,
+  permissions: ['researcher', 'administrador'],
   run: async (req, res) => {
 
     const item = await selectInTable(req, req.params.table)

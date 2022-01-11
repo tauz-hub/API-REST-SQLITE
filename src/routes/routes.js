@@ -1,19 +1,19 @@
-import { Router } from "express";
 import isAuthenticated from "../middleware/isAuthenticated.js";
 import hasPermission from "../middleware/hasPermission.js";
+import path from "path";
+import { Router } from "express";
 import { readdirSync } from 'fs';
 import { dirname } from 'path';
-import path from "path";
 import { fileURLToPath } from 'url';
+
 const router = Router();
 const __dirname = dirname(fileURLToPath(import.meta.url));
-
 const routeFolders = ['login', 'private', 'public'];
 
 async function recursiveArchivesImport(folder, format) {
   const listDirectories = [];
   async function searchDirectories(search) {
-    const folderPath = path.resolve(__dirname + '/' + `${search}`);
+    const folderPath = path.resolve(`${__dirname}/${search}`);
 
     const allFiles = readdirSync(folderPath, { withFileTypes: true });
     allFiles.forEach(async (file) => {
@@ -22,20 +22,21 @@ async function recursiveArchivesImport(folder, format) {
         searchDirectories(`${folderPath}/${file.name}`);
         return;
       }
-      const { default: arquivo } = await import('./' + search + '/' + file.name)
+      const { default: archive } = await import(`./${search}/${file.name}`)
       if (!file.name.endsWith(format)) return;
 
-      if (arquivo.method && arquivo.route) {
-        if (arquivo.isAuthenticated) {
-          if (arquivo.permissions?.length > 0) {
-
-            await router[`${arquivo.method}`](arquivo.route, isAuthenticated, hasPermission, arquivo.run)
-          } else {
-            await router[`${arquivo.method}`](arquivo.route, isAuthenticated, arquivo.run)
+      try {
+        if (archive.method && archive.route) {
+          if (archive.isAuthenticated) {
+            if (archive.permissions?.length > 0) {
+              return await router[archive.method](archive.route, isAuthenticated, (req, res, next) => { hasPermission(req, res, next, archive.permissions) }, archive.run)
+            }
+            return await router[archive.method](archive.route, isAuthenticated, archive.run)
           }
-        } else {
-          await router[`${arquivo.method}`](arquivo.route, arquivo.run)
+          return await router[archive.method](archive.route, archive.run)
         }
+      } catch (e) {
+        console.error(e)
       }
     });
   }

@@ -10,8 +10,7 @@ export default {
     const { user, password } = req.body
     openDbScret().then(async db => {
 
-      const instructionToSelectTable = `SELECT name FROM sqlite_master WHERE type='table' AND name='secret'`
-      const tableExist = await db.get(instructionToSelectTable)
+      const tableExist = await db.get("SELECT name FROM sqlite_master WHERE type='table' AND name='secret'")
 
       if (!tableExist) {
         return res.status(409).json("A Api não possui usuários registrados")
@@ -30,12 +29,11 @@ export default {
       const token = sign({
         id: userInDatabase.id
       }, process.env.JWT_SALT, {
-        expiresIn: 30,
+        expiresIn: "30m",
       })
       return res.json({
         token
       })
     })
   }
-
 }

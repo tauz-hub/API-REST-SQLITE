@@ -1,8 +1,9 @@
-import { insertInTable } from "../../Controler/sqliteQueries.js"
+import { insertInTable } from "../../Controller/sqliteQueries.js"
 export default {
   method: "post",
   route: "/table/:table",
   isAuthenticated: true,
+  permissions: ['discord', 'administrador'],
   run: async (req, res) => {
     if (!req.body.id || !req.body.data) {
       return res.status(400).json("é necessário um \"id\" e um \"data\"!")

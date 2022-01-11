@@ -19,7 +19,21 @@ export async function createTable(nameTable) {
       const tableExist = await db.get(instructionToSelectTable)
       if (!tableExist) {
         const instructionToCreateTable = `CREATE TABLE IF NOT EXISTS ${nameTable} ( id TEXT PRIMARY KEY , data TEXT)`
-        db.exec(instructionToCreateTable)
+        await db.exec(instructionToCreateTable)
+        return true
+      }
+    })
+  }
+}
+
+export async function deleteTable(nameTable) {
+  if (nameTable !== 'auth') {
+    return openDb().then(async db => {
+      const instructionToSelectTable = `SELECT name FROM sqlite_master WHERE type='table' AND name='${nameTable}'`
+      const tableExist = await db.get(instructionToSelectTable)
+      if (tableExist) {
+        const instructionToCreateTable = `DROP TABLE ${nameTable} `
+        await db.run(instructionToCreateTable)
         return true
       }
     })

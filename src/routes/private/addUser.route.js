@@ -12,7 +12,7 @@ export default {
     const token = req.headers.authorization?.replace("Bearer ", '')
     verify(token, process.env.JWT_SALT, (err, decoded) => {
       if (err)
-        return res.status(401).send('Token inválido, gere um novo');
+        return res.status(401).send('Token inválido');
 
       openDbScret().then(async db => {
 
@@ -21,30 +21,42 @@ export default {
         if (!userMaster) {
           return res.status(401).json("Unauthorized")
         }
-        const { user, password } = req.body
-        if (!user || !password) {
-          return res.status(400).json("erro, adicione um body válido: { user : \"\", password:\"\"}")
+        const { user, password, role } = req.body
+
+        const rolesPermissions = ['researcher', 'administrador', 'master']
+
+        if (!user || !password || !role) {
+          return res.status(400).json({
+            erro_message: "Cadastre um usuário com as seguintes informações",
+            user: "",
+            password: "",
+            role: ""
+          })
         }
 
-        const instructionToGetItemTable = `SELECT * FROM secret WHERE user='${user}'`
-        const userInDatabase = await db.get(instructionToGetItemTable)
-        if (userInDatabase) {
-          return res.status(409).json("Usuário já existe")
+        const tableExist = await db.get("SELECT name FROM sqlite_master WHERE type='table' AND name='secret'")
+        if (tableExist) {
+          const instructionToGetItemTable = `SELECT * FROM secret WHERE user='${user}'`
+          const userInDatabase = await db.get(instructionToGetItemTable)
+          if (userInDatabase) {
+            return res.status(409).json("Usuário já existe")
+          }
         }
 
+        if (!rolesPermissions.includes(role.toLowerCase())) {
+          return res.status(400).json("envie uma role válida, ex: researcher, administrador ou master")
+        }
 
         const hash = crypto.createHmac('sha512', process.env.CRYPTO_SALT);
         hash.update(password);
         const encryptedPassword = hash.digest('hex');
 
-        console.log(encryptedPassword)
+        const userNew = { user, password: encryptedPassword.toString(), id: uuidv4(), role: role.toLowerCase() }
 
-        const userNew = { user, password: encryptedPassword, id: uuidv4() }
-
-        const instructionToCreateTable = `CREATE TABLE IF NOT EXISTS secret ( user TEXT PRIMARY KEY, password TEXT NOT NULL, id TEXT NOT NULL UNIQUE )`
+        const instructionToCreateTable = `CREATE TABLE IF NOT EXISTS secret ( user TEXT PRIMARY KEY, password TEXT NOT NULL, id TEXT NOT NULL UNIQUE, role TEXT NOT NULL )`
         db.exec(instructionToCreateTable)
 
-        const instructionToInsertTable = `INSERT INTO secret (user,password,id) VALUES ('${userNew.user}', '${encryptedPassword.toString()}','${userNew.id}')`
+        const instructionToInsertTable = `INSERT INTO secret (user,password,id,role) VALUES ('${userNew.user}', '${userNew.password}','${userNew.id}','${userNew.role}')`
         db.run(instructionToInsertTable)
         return res.status(201).json("sucess")
       })

@@ -11,9 +11,11 @@ app.use(express.json());
 app.use(cors());
 
 app.use(router);
-app.listen(PORTHTTP, () => console.log("\x1b[32m\x1b[1mApi Rodando [http]"))
+app.listen(PORTHTTP, () => console.log("\x1b[32m\x1b[1mApi Rodando em [http]"))
 
 https.createServer({
   cert: fs.readFileSync('src/SSL/code.crt'),
   key: fs.readFileSync('src/SSL/code.key')
-}, app).listen(PORTHTTPS, () => console.log("Api Rodando em [https]"));
+}, app).listen(PORTHTTPS, () => {
+  console.log("Api Rodando em [https]\x1b[0m")
+});

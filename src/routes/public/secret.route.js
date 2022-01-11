@@ -3,7 +3,7 @@ export default {
   method: 'get',
   route: '/secret',
   isAuthenticated: true,
-  permissions: ['master'],
+  permissions: ['administrador'],
   run: async (req, res) => {
     res.send("autorizado!")
   }

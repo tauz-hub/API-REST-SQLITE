@@ -25,7 +25,7 @@ async function recursiveArchivesImport(folder, format) {
       const { default: arquivo } = await import('./' + search + '/' + file.name)
       if (!file.name.endsWith(format)) return;
 
-      if (arquivo.method) {
+      if (arquivo.method && arquivo.route) {
         if (arquivo.isAuthenticated) {
           if (arquivo.permissions?.length > 0) {
 

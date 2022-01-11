@@ -13,7 +13,7 @@ export async function insertInTable(req, nameTable) {
 }
 
 export async function createTable(nameTable) {
-  if (nameOfTable !== 'auth') {
+  if (nameTable !== 'auth') {
     return openDb().then(async db => {
       const instructionToSelectTable = `SELECT name FROM sqlite_master WHERE type='table' AND name='${nameTable}'`
       const tableExist = await db.get(instructionToSelectTable)

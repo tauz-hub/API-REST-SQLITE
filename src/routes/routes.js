@@ -1,33 +1,48 @@
 import { Router } from "express";
-import { isAuthenticated } from "../middleware/isAtuthenticated.js";
-import { auth } from "./login/auth.js";
-import getTable from "./public/getTable.js";
-import getInTable from "./public/getInTable.js";
-import createTable from "./public/createTable.js";
-import postInTable from "./public/postInTable.js"
-import secret from "./public/secret.js";
-import putInTable from "./public/putInTable.js";
-import deleteInTable from "./public/deleteInTable.js";
-import addUser from "./private/addUser.js";
-
+import isAuthenticated from "../middleware/isAuthenticated.js";
+import hasPermission from "../middleware/hasPermission.js";
+import { readdirSync } from 'fs';
+import { dirname } from 'path';
+import path from "path";
+import { fileURLToPath } from 'url';
 const router = Router();
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
-router.post('/addUser', addUser)
+const routeFolders = ['login', 'private', 'public'];
 
-router.get('/secret', isAuthenticated, secret)
+async function recursiveArchivesImport(folder, format) {
+  const listDirectories = [];
+  async function searchDirectories(search) {
+    const folderPath = path.resolve(__dirname + '/' + `${search}`);
 
-router.get('/:table', isAuthenticated, getTable)
+    const allFiles = readdirSync(folderPath, { withFileTypes: true });
+    allFiles.forEach(async (file) => {
 
-router.get('/:table/:id', isAuthenticated, getInTable)
+      if (file.isDirectory()) {
+        searchDirectories(`${folderPath}/${file.name}`);
+        return;
+      }
+      const { default: arquivo } = await import('./' + search + '/' + file.name)
+      if (!file.name.endsWith(format)) return;
 
-router.post('/auth', auth)
+      if (arquivo.method) {
+        if (arquivo.isAuthenticated) {
+          if (arquivo.permissions?.length > 0) {
 
-router.post('/createTable', isAuthenticated, createTable);
+            await router[`${arquivo.method}`](arquivo.route, isAuthenticated, hasPermission, arquivo.run)
+          } else {
+            await router[`${arquivo.method}`](arquivo.route, isAuthenticated, arquivo.run)
+          }
+        } else {
+          await router[`${arquivo.method}`](arquivo.route, arquivo.run)
+        }
+      }
+    });
+  }
+  await searchDirectories(folder);
 
-router.post('/:table', isAuthenticated, postInTable)
-
-router.put('/:table', isAuthenticated, putInTable)
-
-router.delete('/:table', isAuthenticated, deleteInTable)
+  return listDirectories;
+}
+routeFolders.forEach(async (folder) => await recursiveArchivesImport(folder, '.route.js'));
 
 export default router;

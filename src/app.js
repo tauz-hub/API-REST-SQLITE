@@ -1,16 +1,18 @@
-import express from "express";
+import express from 'express';
 import 'dotenv/config'
 import https from 'https';
 import cors from 'cors';
 import fs from 'fs';
 import router from './routes/routes.js'
+import logger from './middleware/logger.js';
+
 const app = express()
 const { PORTHTTP, PORTHTTPS } = process.env
 
-app.use(express.json());
 app.use(cors());
-
+app.use(logger('./src/Loggers/logger.json'));
 app.use(router);
+
 app.listen(PORTHTTP, () => console.log("\x1b[32m\x1b[1mApi Rodando em [http]"))
 
 https.createServer({

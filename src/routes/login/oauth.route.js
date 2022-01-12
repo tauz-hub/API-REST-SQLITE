@@ -5,7 +5,7 @@ const { sign } = jwt;
 
 export default {
   method: 'post',
-  route: '/auth',
+  route: '/oauth',
   run: async (req, res) => {
     const { user, password } = req.body
     openDbScret().then(async db => {
@@ -31,7 +31,7 @@ export default {
       }, process.env.JWT_SALT, {
         expiresIn: "30m",
       })
-      return res.json({
+      return res.status(200).json({
         token
       })
     })

@@ -2,7 +2,7 @@ import { createTable } from "../../Controller/sqliteQueries.js"
 export default {
   method: "post",
   route: "/createTable",
-  isAuthenticated: true,
+  authMiddleware: true,
   permissions: ['administrador', 'master'],
   run: async (req, res) => {
     const nameOfTable = req.body.TableName || req.body.tablename
@@ -12,9 +12,9 @@ export default {
       if (!regexLetters.test(nameOfTable)) {
         return res.status(409).json("Use apenas letras e números no nome da tabela (sem espaços, apenas _ )")
       }
-      const sucess = await createTable(nameOfTable)
-      if (sucess) {
-        return res.status(201).json("sucess")
+      const success = await createTable(nameOfTable)
+      if (success) {
+        return res.status(201).json("success")
       }
       return res.status(409).json("já existe uma tabela com este nome no banco")
     }

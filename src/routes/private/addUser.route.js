@@ -58,7 +58,7 @@ export default {
 
         const instructionToInsertTable = `INSERT INTO secret (user,password,id,role) VALUES ('${userNew.user}', '${userNew.password}','${userNew.id}','${userNew.role}')`
         db.run(instructionToInsertTable)
-        return res.status(201).json("sucess")
+        return res.status(201).json("success")
       })
     });
   }

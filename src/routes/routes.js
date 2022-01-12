@@ -1,5 +1,6 @@
-import isAuthenticated from "../middleware/isAuthenticated.js";
-import hasPermission from "../middleware/hasPermission.js";
+import authMiddleware from "../middleware/authMiddleware.js";
+import permissionMiddleware from "../middleware/permissionMiddleware.js";
+import rateLimit from "../middleware/rateLimit.js"
 import path from "path";
 import { Router } from "express";
 import { readdirSync } from 'fs';
@@ -27,13 +28,22 @@ async function recursiveArchivesImport(folder, format) {
 
       try {
         if (archive.method && archive.route) {
-          if (archive.isAuthenticated) {
+          if (archive.authMiddleware) {
             if (archive.permissions?.length > 0) {
-              return await router[archive.method](archive.route, isAuthenticated, (req, res, next) => { hasPermission(req, res, next, archive.permissions) }, archive.run)
+              return await router[archive.method](archive.route,
+                authMiddleware,
+                (req, res, next) => { permissionMiddleware(req, res, next, archive.permissions) },
+                rateLimit,
+                archive.run)
             }
-            return await router[archive.method](archive.route, isAuthenticated, archive.run)
+            return await router[archive.method](archive.route,
+              authMiddleware,
+              rateLimit,
+              archive.run)
           }
-          return await router[archive.method](archive.route, archive.run)
+          return await router[archive.method](archive.route,
+            rateLimit,
+            archive.run)
         }
       } catch (e) {
         console.error(e)

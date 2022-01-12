@@ -34,7 +34,7 @@ export default {
           if (itemExist) {
             const instructionToDeleteTable = `DELETE FROM secret WHERE user='${user}'`
             db.get(instructionToDeleteTable)
-            return res.status(201).json("sucess")
+            return res.status(201).json("success")
           }
           return res.status(404).json("Usuário não existe")
         }

@@ -2,7 +2,7 @@
 
 A [API-REST-BALLEBOT](#) disponibiliza uma API REST que permite o acesso a tabelas dos servidores, informações, configurações e arquivos privados do sistema do [BALLEBOT](#).
 
-As dúvidas e solicitações, relacionadas ao acesso da API, como foi feita, ou dúvidas podem ser esclarecidas falando com o TAUZ via e-mail ( tauasantops@gmail.com ) ou discord ( TAUZ#4635 ).
+As dúvidas e solicitações, relacionadas ao acesso da API, como foi feita, ou dúvidas podem ser esclarecidas falando com o TAUZ via e-mail ( tauasantops@gmail.com ) ou discord ( TAUZ#4635 ) ou github https://github.com/tauzxd/
 
 Recursos disponíveis para acesso via API:
 * [**Tabelas de Servidores**](#)

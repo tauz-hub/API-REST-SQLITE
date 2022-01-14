@@ -42,7 +42,7 @@ Você pode acompanhar esses limites nos `headers`: `X-RateLimit-Limit`, `X-RateL
 Por questões de segurança, todas as requisições devem ser feitas através do protocolo `HTTPS`.
 
 
-# Group Autenticação - OAuth
+# API Autenticação - OAuth
 
 Nossa API utiliza [OAuth2](https://oauth.net/2/) como forma de autenticação/autorização.
 

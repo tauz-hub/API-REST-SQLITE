@@ -122,8 +122,8 @@ Veja o exemplo:
 
 Quando for necessário gravar alguma informação ou novo item no banco, deve ser passado um json na requisição post da seguinte maneira:
 
-```json
 //Ex.1
+```json
 {
   "id": "user_id_0000000000000001",
   "data": {
@@ -133,8 +133,9 @@ Quando for necessário gravar alguma informação ou novo item no banco, deve se
     "skills": ["php", "golang", "elixir", "rust"]
   }
 }
-
+```
 //Ex.2
+```json
 {
   "id": "joao",
   "data": "programador"
@@ -147,7 +148,7 @@ Quando for necessário gravar alguma informação ou novo item no banco, deve se
 
 Utilize a rota ``_base/createTable/:nomeDaTabela`` para criar uma nova tabela com o método **POST**, o nome passado será o nome da tabela que será criada com as mesma colunas e estruturas de todas as tabelas (citadas na aba [Banco de dados](#banco-de-dados) ). É necessário apenas passa o nome da tabela como parâmetro na url.
 
-```json
+```js
 //Ex
 //_base/createTable/skills output: 201 - success create
 //_base/createTable/github output: 201 - sucess create
@@ -158,7 +159,7 @@ Utilize a rota ``_base/createTable/:nomeDaTabela`` para criar uma nova tabela co
 
 Utilize a rota ``_base/deleteTable/:nomeDaTabela`` para remover uma tabela do banco com o método **DELETE**, essa tabela será apagada para sempre. É necessário apenas passa o nome da tabela como parâmetro na url. 
 
-```json
+```js
 //Ex
 //_base/deleteTable/skills output: 201 - sucess delete
 //_base/deleteTable/github output: 201 - sucess delete
@@ -169,10 +170,9 @@ Utilize a rota ``_base/deleteTable/:nomeDaTabela`` para remover uma tabela do ba
 
 Utilize a rota ``_base/table/:nomeDaTabela`` para receber um json com toda a tabela que foi passada como parâmetro, utilizando o método **GET**.
 
-```json
 //_base/table/skills
-
 //Ex.output
+```json
 [
   {
   "id" : "java",
@@ -191,8 +191,8 @@ Utilize a rota ``_base/table/:nomeDaTabela`` para receber um json com toda a tab
 
 Utilize a rota  `_base/table/:nomeDaTabela` para selecionar a tabela que será adicionado o item e envie um método **POST**. Seguindo a estrutura do banco, envie um json no body da requisição com todo o objeto que você quer armazenar no DATA do objeto e um nome chave para quando precisar no ID, veja o exemplo:
 
-```json
 //Ex.1
+```json
 body: {
   "id": "guild_id_00001",
   "data": {
@@ -202,8 +202,9 @@ body: {
     "timestamp": 1642128013
   }
 }
-
+```
 //Ex.2
+```json
 body: {
   "id": "guild_id_00001",
   "data": "disabled"
@@ -214,8 +215,8 @@ body: {
 
 Utilize a rota `_base/table/:nomeDaTabela` para atualizar o item passado como parâmetro, deve ser passado um body igual é passado no post, mas o método deverá ser o **PUT**. O item será atualizado se existir na tabela.
 
-```json
 //Ex.1
+```json
 body: {
   "id": "guild_id_00001",
   "data": {
@@ -225,8 +226,9 @@ body: {
     "timestamp": 1642936222
   }
 }
-
+```
 //Ex.2
+```json
 body: {
   "id": "guild_id_00001",
   "data": "active"
@@ -237,7 +239,7 @@ body: {
 
 Utilize a rota  `_base/table/:nomeDaTabela/:idItem` para deletar um item passando ele como parâmetro depois de especificar a tabela no qual ele pertence, o método usado é o **DELETE**. O item será apagado para sempre. 
 
-```json
+```js
 //_base/table/skills/java  //o item java será apagado da tabela skills
 //_base/table/servers/ballerini //o item ballerini será apagado da tabela servers
 ```

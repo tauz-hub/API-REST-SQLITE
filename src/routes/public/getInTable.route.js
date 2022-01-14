@@ -6,7 +6,7 @@ export default {
   permissions: ['researcher', 'administrador'],
   run: async (req, res) => {
 
-    const item = await selectInTable(req, req.params.table)
+    const item = await selectInTable(req)
     if (item) {
       return res.status(200).json(item)
     }

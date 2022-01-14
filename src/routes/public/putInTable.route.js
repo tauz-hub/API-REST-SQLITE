@@ -8,7 +8,7 @@ export default {
     if (!req.body.id) {
       return res.status(400).send("é necessário um id!")
     }
-    const successUpdate = await updateInTable(req, req.params.table)
+    const successUpdate = await updateInTable(req)
     if (!successUpdate) {
       return res.status(404).send("não encontrei o item")
     }

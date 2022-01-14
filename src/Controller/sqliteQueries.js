@@ -1,6 +1,7 @@
 import { openDb } from "../publicDatabase/configPublicDB.js";
 
-export async function insertInTable(req, nameTable) {
+export async function insertInTable(req) {
+ const nameTable = req.params.table
   return openDb().then(async db => {
     const instructionToSelectInTable = `SELECT * FROM ${nameTable} WHERE id='${req.body.id}'`
     const itemExist = await db.get(instructionToSelectInTable)
@@ -40,19 +41,21 @@ export async function deleteTable(nameTable) {
   }
 }
 
-export async function deleteInTable(req, nameTable) {
+export async function deleteInTable(req) {
+  const nameTable = req.params.table
   return openDb().then(async db => {
-    const instructionToSelectTable = `SELECT * FROM ${nameTable} WHERE id='${req.body.id}'`
+    const instructionToSelectTable = `SELECT * FROM ${nameTable} WHERE id='${req.params.id}'`
     const itemExist = await db.get(instructionToSelectTable)
     if (itemExist) {
-      const instructionToDeleteTable = `DELETE FROM ${nameTable} WHERE id='${req.body.id}'`
+      const instructionToDeleteTable = `DELETE FROM ${nameTable} WHERE id='${req.params.id}'`
       db.get(instructionToDeleteTable)
       return true
     }
   })
 }
 
-export async function updateInTable(req, nameTable) {
+export async function updateInTable(req) {
+  const nameTable =  req.params.table
   return openDb().then(async db => {
     const instructionToSelectTable = `SELECT * FROM ${nameTable} WHERE id='${req.body.id}'`
     const itemExist = await db.get(instructionToSelectTable)
@@ -64,7 +67,8 @@ export async function updateInTable(req, nameTable) {
   })
 }
 
-export async function selectInTable(req, nameTable) {
+export async function selectInTable(req) {
+  const nameTable = req.params.table
   return openDb().then(async db => {
     const instructionToSelectTable = `SELECT name FROM sqlite_master WHERE type='table' AND name='${nameTable}'`
     const tableExist = await db.get(instructionToSelectTable)
@@ -75,7 +79,8 @@ export async function selectInTable(req, nameTable) {
   })
 }
 
-export async function selectTable(nameTable) {
+export async function selectTable(req) {
+  const nameTable = req.params.table
   return openDb().then(async db => {
     const instructionToSelectTable = `SELECT name FROM sqlite_master WHERE type='table' AND name='${nameTable}'`
     const tableExist = await db.get(instructionToSelectTable)

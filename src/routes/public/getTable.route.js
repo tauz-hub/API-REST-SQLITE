@@ -5,7 +5,7 @@ export default {
   authMiddleware: true,
   permissions: ['researcher', 'administrador'],
   run: async (req, res) => {
-    const table = await selectTable(req.params.table)
+    const table = await selectTable(req)
     if (table) {
       return res.status(200).json(table)
     }

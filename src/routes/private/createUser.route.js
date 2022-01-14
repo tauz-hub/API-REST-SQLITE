@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 export default {
   method: 'post',
-  route: '/addUser',
+  route: '/createUser',
   run: (req, res) => {
 
     const token = req.headers.authorization?.replace("Bearer ", '')

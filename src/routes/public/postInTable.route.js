@@ -8,7 +8,7 @@ export default {
     if (!req.body.id || !req.body.data) {
       return res.status(400).send('é necessário um \"id\" e um \"data\"!')
     }
-    const successInsert = await insertInTable(req, req.params.table)
+    const successInsert = await insertInTable(req)
     if (!successInsert) {
       return res.status(409).send("já existe um item com mesmo id na tabela!")
     }

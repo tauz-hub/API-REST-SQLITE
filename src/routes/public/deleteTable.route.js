@@ -5,7 +5,7 @@ export default {
   authMiddleware: true,
   permissions: ['administrador'],
   run: async (req, res) => {
-    const nameOfTable = req.body.TableName || req.body.tablename
+  const nameOfTable = req.body.TableName || req.body.tablename
     if (nameOfTable) {
       const regexLetters = /^[a-zA-Z0-9_]*$/
 

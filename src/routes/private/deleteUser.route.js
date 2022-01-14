@@ -4,7 +4,7 @@ const { verify } = jwt;
 
 export default {
   method: 'delete',
-  route: '/removeUser',
+  route: '/deleteUser/:user',
   run: (req, res) => {
     const token = req.headers.authorization?.replace("Bearer ", '')
     verify(token, process.env.JWT_SALT, (err, decoded) => {
@@ -18,14 +18,7 @@ export default {
         if (!userMaster) {
           return res.status(401).json("Unauthorized")
         }
-        const { user } = req.body
-
-        if (!user) {
-          return res.status(400).json({
-            erro_message: "Informe um user",
-            user: "",
-          })
-        }
+        const user = req.params.user
 
         const tableExist = await db.get("SELECT name FROM sqlite_master WHERE type='table' AND name='secret'")
         if (tableExist) {

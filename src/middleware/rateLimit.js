@@ -8,7 +8,7 @@ export default rateLimit({
   handler: (req, res) => {
     res.status(429).send("Você obteve um limite de request")
   },
-  max: 50,
+  max: 60,
   standardHeaders: true,
   legacyHeaders: true,
 })

@@ -1,11 +1,11 @@
 import { createTable } from "../../Controller/sqliteQueries.js"
 export default {
   method: "post",
-  route: "/createTable",
+  route: "/createTable/:tablename",
   authMiddleware: true,
   permissions: ['administrador', 'master'],
   run: async (req, res) => {
-    const nameOfTable = req.body.TableName || req.body.tablename
+    const nameOfTable = req.params.tablename 
     if (nameOfTable) {
       const regexLetters = /^[a-zA-Z0-9_]*$/
 

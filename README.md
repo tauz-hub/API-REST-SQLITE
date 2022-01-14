@@ -2,7 +2,7 @@
 
 A [API-REST-BALLEBOT](#) disponibiliza uma API REST que permite o acesso a tabelas dos servidores, informações, configurações e arquivos privados do sistema do [BALLEBOT](#).
 
-As dúvidas e solicitações, relacionadas ao acesso da API, como foi feita, ou dúvidas podem ser esclarecidas falando com o TAUZ via e-mail ( tauasantops@gmail.com ) ou discord ( TAUZ#4635 ).
+As dúvidas e solicitações, relacionadas ao acesso da API, como foi feita, ou dúvidas podem ser esclarecidas falando com o TAUZ via e-mail ( tauasantops@gmail.com ) ou discord ( TAUZ#4635 ) ou github https://github.com/tauzxd/
 
 Recursos disponíveis para acesso via API:
 * [**Tabelas de Servidores**](#)
@@ -42,7 +42,7 @@ Você pode acompanhar esses limites nos `headers`: `X-RateLimit-Limit`, `X-RateL
 Por questões de segurança, todas as requisições devem ser feitas através do protocolo `HTTPS`.
 
 
-# Group Autenticação - OAuth
+# API Autenticação - OAuth
 
 Nossa API utiliza [OAuth2](https://oauth.net/2/) como forma de autenticação/autorização.
 
@@ -127,7 +127,7 @@ Quando for necessário gravar alguma informação ou novo item no banco, deve se
 {
   "id": "user_id_0000000000000001",
   "data": {
-    "sername": "Maria",
+    "username": "Maria",
     "descriminator": "9162",
     "idade": 18,
     "skills": ["php", "golang", "elixir", "rust"]

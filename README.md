@@ -170,8 +170,7 @@ Utilize a rota ``_base/deleteTable/:nomeDaTabela`` para remover uma tabela do ba
 
 Utilize a rota ``_base/table/:nomeDaTabela`` para receber um json com toda a tabela que foi passada como parâmetro, utilizando o método **GET**.
 
-//_base/table/skills
-//Ex.output
+//Ex.output _base/table/skills
 ```json
 [
   {
@@ -193,7 +192,7 @@ Utilize a rota  `_base/table/:nomeDaTabela` para selecionar a tabela que será a
 
 //Ex.1
 ```json
-body: {
+"body": {
   "id": "guild_id_00001",
   "data": {
     "name" : "ballerini",
@@ -205,7 +204,7 @@ body: {
 ```
 //Ex.2
 ```json
-body: {
+"body": {
   "id": "guild_id_00001",
   "data": "disabled"
 }
@@ -217,7 +216,7 @@ Utilize a rota `_base/table/:nomeDaTabela` para atualizar o item passado como pa
 
 //Ex.1
 ```json
-body: {
+"body": {
   "id": "guild_id_00001",
   "data": {
     "name" : "ballerini 123",
@@ -229,7 +228,7 @@ body: {
 ```
 //Ex.2
 ```json
-body: {
+"body": {
   "id": "guild_id_00001",
   "data": "active"
 }

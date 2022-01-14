@@ -12,7 +12,6 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const routeFolders = ['login', 'private', 'public'];
 
 async function recursiveArchivesImport(folder, format) {
-  const listDirectories = [];
   async function searchDirectories(search) {
     const folderPath = path.resolve(`${__dirname}/${search}`);
 
@@ -52,7 +51,6 @@ async function recursiveArchivesImport(folder, format) {
   }
   await searchDirectories(folder);
 
-  return listDirectories;
 }
 routeFolders.forEach(async (folder) => await recursiveArchivesImport(folder, '.route.js'));
 

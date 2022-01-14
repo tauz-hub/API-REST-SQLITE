@@ -1,26 +1,24 @@
-import { deleteTable } from "../../Controller/sqliteQueries.js"
+import { deleteTable } from "../../Controller/sqliteQueries.js";
 export default {
   method: "delete",
-  route: "/deleteTable",
+  route: "/deleteTable/:nametable",
   authMiddleware: true,
-  permissions: ['administrador'],
+  permissions: ["administrador"],
   run: async (req, res) => {
-  const nameOfTable = req.body.TableName || req.body.tablename
-    if (nameOfTable) {
-      const regexLetters = /^[a-zA-Z0-9_]*$/
+    const regexLetters = /^[a-zA-Z0-9_]*$/;
+    const nameOfTable = req.params.nametable
 
-      if (!regexLetters.test(nameOfTable)) {
-        return res.status(409).json("Use apenas letras e números no nome da tabela (sem espaços, apenas _ )")
-      }
-      const success = await deleteTable(nameOfTable)
-      if (success) {
-        return res.status(201).json("success")
-      }
-      return res.status(409).json("não existe uma tabela com este nome no banco")
+    if (!regexLetters.test(nameOfTable)) {
+      return res
+        .status(409)
+        .json(
+          "Use apenas letras e números no nome da tabela (sem espaços, apenas _ )"
+        );
     }
-    return res.status(400).json({
-      erro_message: "envie um nome de tabela",
-      TableName: ""
-    })
-  }
-}
+    const success = await deleteTable(nameOfTable);
+    if (success) {
+      return res.status(201).json("success");
+    }
+    return res.status(409).json("não existe uma tabela com este nome no banco");
+  },
+};

@@ -127,7 +127,7 @@ Quando for necessário gravar alguma informação ou novo item no banco, deve se
 {
   "id": "user_id_0000000000000001",
   "data": {
-    "sername": "Maria",
+    "username": "Maria",
     "descriminator": "9162",
     "idade": 18,
     "skills": ["php", "golang", "elixir", "rust"]

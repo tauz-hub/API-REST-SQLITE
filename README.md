@@ -93,7 +93,7 @@ request({
 | `_base/table/:nomeDaTabela` | GET | Pegar todo o conteúdo de uma tabela, será devolvido um json como resposta. 
 | `_base/table/:nomeDaTabela/:idItem` | GET | Pegar item de uma tabela via ID, será devolvido um json como resposta.
 | `_base/table/:nomeDaTabela` | POST | Adicionar item em uma tebela, deve ser passado na estrutura que está na aba [Banco de dados](#banco-de-dados) ({id: " ", data: " "}). |
-| `_base/table/:nomeDaTabela/:idItem` | PUT | Atualizar um item, deve ser passado a mesma estrutura que é usada acima, veja na Aba [Banco de dados](#banco-de-dados) ({id: " ", data: " "}).|
+| `_base/table/:nomeDaTabela/` | PUT | Atualizar um item, deve ser passado a mesma estrutura que é usada acima, veja na Aba [Banco de dados](#banco-de-dados) ({id: " ", data: " "}).|
 | `_base/table/:nomeDaTabela/:idItem` | DELETE | Deletar um item.|
 | `_base/createTable/:nomeDaTabela` | POST | Criar uma tabela no banco (Veja como funciona uma tabela no banco na aba [Banco de dados](#banco-de-dados) ).|
 | `_base/deleteTable/:nomeDaTabela` | DELETE | Deletar uma tabela no banco.|
@@ -127,10 +127,10 @@ Quando for necessário gravar alguma informação ou novo item no banco, deve se
 {
   "id": "user_id_0000000000000001",
   "data": {
-    username: "Maria",
-    descriminator: "9162",
-    idade: 18,
-    skills: ["php", "golang", "elixir", "rust"]
+    "sername": "Maria",
+    "descriminator": "9162",
+    "idade": 18,
+    "skills": ["php", "golang", "elixir", "rust"]
   }
 }
 
@@ -149,9 +149,9 @@ Utilize a rota ``_base/createTable/:nomeDaTabela`` para criar uma nova tabela co
 
 ```json
 //Ex
-_base/createTable/skills
-_base/createTable/github
-_base/createTable/users
+//_base/createTable/skills output: 201 - success create
+//_base/createTable/github output: 201 - sucess create
+//_base/createTable/users output: 201 - succes create
 ```
 
 ## Deletar uma Tabela
@@ -160,9 +160,9 @@ Utilize a rota ``_base/deleteTable/:nomeDaTabela`` para remover uma tabela do ba
 
 ```json
 //Ex
-_base/deleteTable/skills
-_base/deleteTable/github
-_base/deleteTable/users
+//_base/deleteTable/skills output: 201 - sucess delete
+//_base/deleteTable/github output: 201 - sucess delete
+//_base/deleteTable/users output: 201 - sucess delete
 ```
 
 ## Pegar uma Tabela
@@ -170,7 +170,7 @@ _base/deleteTable/users
 Utilize a rota ``_base/table/:nomeDaTabela`` para receber um json com toda a tabela que foi passada como parâmetro, utilizando o método **GET**.
 
 ```json
-_base/table/skills
+//_base/table/skills
 
 //Ex.output
 [
@@ -193,7 +193,7 @@ Utilize a rota  `_base/table/:nomeDaTabela` para selecionar a tabela que será a
 
 ```json
 //Ex.1
-{
+body: {
   "id": "guild_id_00001",
   "data": {
     "name" : "ballerini",
@@ -204,9 +204,32 @@ Utilize a rota  `_base/table/:nomeDaTabela` para selecionar a tabela que será a
 }
 
 //Ex.2
-{
+body: {
   "id": "guild_id_00001",
   "data": "disabled"
+}
+```
+
+## Atualizar um item em uma Tabela
+
+Utilize a rota `_base/table/:nomeDaTabela` para atualizar o item passado como parâmetro, deve ser passado um body igual é passado no post, mas o método deverá ser o **PUT**. O item será atualizado se existir na tabela.
+
+```json
+//Ex.1
+body: {
+  "id": "guild_id_00001",
+  "data": {
+    "name" : "ballerini 123",
+    "countMembers": "30000",
+    "local": "BR",
+    "timestamp": 1642936222
+  }
+}
+
+//Ex.2
+body: {
+  "id": "guild_id_00001",
+  "data": "active"
 }
 ```
 
@@ -215,8 +238,8 @@ Utilize a rota  `_base/table/:nomeDaTabela` para selecionar a tabela que será a
 Utilize a rota  `_base/table/:nomeDaTabela/:idItem` para deletar um item passando ele como parâmetro depois de especificar a tabela no qual ele pertence, o método usado é o **DELETE**. O item será apagado para sempre. 
 
 ```json
-_base/table/skills/java  //o item java será apagado da tabela skills
-_base/table/servers/ballerini //o item ballerini será apagado da tabela servers
+//_base/table/skills/java  //o item java será apagado da tabela skills
+//_base/table/servers/ballerini //o item ballerini será apagado da tabela servers
 ```
 
 ## Pegar um item em uma Tabela
@@ -232,3 +255,4 @@ Utilize a rota `_base/table/:nomeDaTabela/:idItem` para pegar um item de dentro 
   }
 }
 ```
+

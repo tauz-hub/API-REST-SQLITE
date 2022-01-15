@@ -1,11 +1,11 @@
-import authMiddleware from "../middleware/authMiddleware.js";
-import permissionMiddleware from "../middleware/permissionMiddleware.js";
-import rateLimit from "../middleware/rateLimit.js"
-import path from "path";
-import { Router } from "express";
+import path, { dirname } from 'path';
+import { Router } from 'express';
 import { readdirSync } from 'fs';
-import { dirname } from 'path';
+
 import { fileURLToPath } from 'url';
+import rateLimit from '../Middleware/rateLimit.js';
+import permissionMiddleware from '../Middleware/permissionMiddleware.js';
+import authMiddleware from '../Middleware/authMiddleware.js';
 
 const router = Router();
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -17,41 +17,49 @@ async function recursiveArchivesImport(folder, format) {
 
     const allFiles = readdirSync(folderPath, { withFileTypes: true });
     allFiles.forEach(async (file) => {
-
       if (file.isDirectory()) {
         searchDirectories(`${folderPath}/${file.name}`);
         return;
       }
-      const { default: archive } = await import(`./${search}/${file.name}`)
+      const { default: archive } = await import(`./${search}/${file.name}`);
       if (!file.name.endsWith(format)) return;
 
       try {
         if (archive.method && archive.route) {
           if (archive.authMiddleware) {
             if (archive.permissions?.length > 0) {
-              return await router[archive.method](archive.route,
+              return await router[archive.method](
+                archive.route,
                 authMiddleware,
-                (req, res, next) => { permissionMiddleware(req, res, next, archive.permissions) },
+                (req, res, next) => {
+                  permissionMiddleware(req, res, next, archive.permissions);
+                },
                 rateLimit,
-                archive.run)
+                archive.run
+              );
             }
-            return await router[archive.method](archive.route,
+            return await router[archive.method](
+              archive.route,
               authMiddleware,
               rateLimit,
-              archive.run)
+              archive.run
+            );
           }
-          return await router[archive.method](archive.route,
+          return await router[archive.method](
+            archive.route,
             rateLimit,
-            archive.run)
+            archive.run
+          );
         }
       } catch (e) {
-        console.error(e)
+        console.error(e);
       }
     });
   }
   await searchDirectories(folder);
-
 }
-routeFolders.forEach(async (folder) => await recursiveArchivesImport(folder, '.route.js'));
+routeFolders.forEach(async (folder) =>
+  recursiveArchivesImport(folder, '.route.js')
+);
 
 export default router;

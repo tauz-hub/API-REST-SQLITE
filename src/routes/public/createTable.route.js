@@ -1,9 +1,10 @@
-import { createTable } from "../../Controller/sqliteQueries.js";
+import { createTable } from '../../Controller/sqliteQueries.js';
+
 export default {
-  method: "post",
-  route: "/createTable/:tablename",
+  method: 'post',
+  route: '/createTable/:tablename',
   authMiddleware: true,
-  permissions: ["administrador", "master"],
+  permissions: ['administrador', 'master'],
   run: async (req, res) => {
     const nameOfTable = req.params.tablename;
 
@@ -13,13 +14,13 @@ export default {
       return res
         .status(409)
         .json(
-          "Use apenas letras e números no nome da tabela (sem espaços, apenas _ )"
+          'Use apenas letras e números no nome da tabela (sem espaços, apenas _ )'
         );
     }
     const success = await createTable(nameOfTable);
     if (success) {
-      return res.status(201).json("success");
+      return res.status(201).json('success');
     }
-    return res.status(409).json("já existe uma tabela com este nome no banco");
+    return res.status(409).json('já existe uma tabela com este nome no banco');
   },
 };

@@ -4,7 +4,7 @@ import https from 'https';
 import cors from 'cors';
 import fs from 'fs';
 import router from './routes/routes.js';
-import logger from './Middleware/logger.js';
+import logger from './middleware/logger.js';
 
 const app = express();
 const { PORTHTTP, PORTHTTPS } = process.env;

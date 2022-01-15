@@ -1,5 +1,5 @@
 import pkg from 'jsonwebtoken';
-import { openDbScret } from '../SecretDatabase/configSecretDB.js';
+import { openDbScret } from '../secretDatabase/configSecretDB.js';
 
 const { verify } = pkg;
 

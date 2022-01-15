@@ -3,9 +3,9 @@ import { Router } from 'express';
 import { readdirSync } from 'fs';
 
 import { fileURLToPath } from 'url';
-import rateLimit from '../Middleware/rateLimit.js';
-import permissionMiddleware from '../Middleware/permissionMiddleware.js';
-import authMiddleware from '../Middleware/authMiddleware.js';
+import rateLimit from '../middleware/rateLimit.js';
+import permissionMiddleware from '../middleware/permissionMiddleware.js';
+import authMiddleware from '../middleware/authMiddleware.js';
 
 const router = Router();
 const __dirname = dirname(fileURLToPath(import.meta.url));

@@ -3,5 +3,5 @@ package-lock.json
 .env
 *.db
 logger.json
-*.crt
-*.key
+code.crt
+code.key

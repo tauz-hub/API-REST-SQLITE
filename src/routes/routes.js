@@ -45,7 +45,11 @@ async function recursiveArchivesImport(folder, format) {
               archive.run
             );
           }
-          return await router[archive.method](archive.route, rateLimit, archive.run);
+          return await router[archive.method](
+            archive.route,
+            rateLimit,
+            archive.run
+          );
         }
       } catch (e) {
         console.error(e);

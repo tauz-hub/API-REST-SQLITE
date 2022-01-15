@@ -54,6 +54,6 @@ async function recursiveArchivesImport(folder, format) {
   }
   await searchDirectories(folder);
 }
-routeFolders.forEach(async (folder) => recursiveArchivesImport(folder, '.route.js'));
+routeFolders.forEach((folder) => recursiveArchivesImport(folder, '.route.js'));
 
 export default router;

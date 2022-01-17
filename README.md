@@ -1,6 +1,6 @@
 # API-REST Para o Ballebot 🏦
 
-A [API-REST-SQLiteT](#) disponibiliza uma API REST que permite o acesso a tabelas dos servidores, informações, configurações e arquivos privados do sistema do [BALLEBOT](#).
+A [API-REST-SQLite](#) disponibiliza uma API REST que permite o acesso a tabelas dos servidores, informações, configurações e arquivos privados do sistema do [BALLEBOT](#).
 
 As dúvidas e solicitações, relacionadas ao acesso da API, como foi feita, ou dúvidas podem ser esclarecidas falando com o TAUZ via e-mail ( tauasantops@gmail.com ) ou discord ( TAUZ#4635 ) ou github https://github.com/tauzxd/
 
